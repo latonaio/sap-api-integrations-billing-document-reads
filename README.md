@@ -54,7 +54,7 @@ accepter において 下記の例のように、データの種別（＝APIの�
 ここでは、"Header" が指定されています。
 
 ```
-	"api_schema": "sap.s4.beh.billingdocument.v1.BillingDocument.Created.v1",
+	"api_schema": "SAPBillingDocumentReads",
 	"accepter": ["Header"],	
 	"billing_document": "90000000",
 	"deleted": false
@@ -65,7 +65,7 @@ accepter において 下記の例のように、データの種別（＝APIの�
 全データを取得する場合、sample.json は以下のように記載します。  
 
 ```
-	"api_schema": "sap.s4.beh.billingdocument.v1.BillingDocument.Created.v1",
+	"api_schema": "SAPBillingDocumentReads",
 	"accepter": ["All"],	
 	"billing_document": "90000000",
 	"deleted": false
@@ -111,16 +111,61 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, headerPartnerFun
 }
 ```
 ## Output  
-本マイクロサービスでは、[golang-logging-library](https://github.com/latonaio/golang-logging-library) により、以下のようなデータがJSON形式で出力されます。  
+本マイクロサービスでは、[golang-logging-library-for-sap](https://github.com/latonaio/golang-logging-library-for-sap) により、以下のようなデータがJSON形式で出力されます。  
 以下の sample.json の例は、SAP 請求伝票 の ヘッダデータ が取得された結果の JSON の例です。  
 以下の項目のうち、"BillingDocument" ～ "to_Partner" は、/SAP_API_Output_Formatter/type.go 内 の Type Header {} による出力結果です。"cursor" ～ "time"は、golang-logging-library による 定型フォーマットの出力結果です。  
 
 ```
 {
-	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-billing-document-reads/SAP_API_Caller/caller.go#L50",
+	"cursor": "/Users/latona2/bitbucket/sap-api-integrations-billing-document-reads/SAP_API_Caller/caller.go#L70",
 	"function": "sap-api-integrations-billing-document-reads/SAP_API_Caller.(*SAPAPICaller).Header",
 	"level": "INFO",
-	"message": "[{XXXXXXXXXXXXXXXXXXXXXXXXXXXXX}]",
-	"time": "2021-12-11T15:33:00.054455+09:00"
+	"message": [
+		{
+			"BillingDocument": "90000000",
+			"BillingDocumentType": "F2",
+			"SDDocumentCategory": "M",
+			"BillingDocumentCategory": "L",
+			"CreationDate": "2022-09-15",
+			"LastChangeDate": "",
+			"SalesOrganization": "0001",
+			"DistributionChannel": "01",
+			"Division": "01",
+			"BillingDocumentDate": "1998-02-01",
+			"BillingDocumentIsCancelled": false,
+			"CancelledBillingDocument": "",
+			"IsExportDelivery": "",
+			"TotalNetAmount": "1000.00",
+			"TransactionCurrency": "EUR",
+			"TaxAmount": "0.00",
+			"TotalGrossAmount": "1000.00",
+			"CustomerPriceGroup": "01",
+			"IncotermsClassification": "FH",
+			"CustomerPaymentTerms": "0001",
+			"PaymentMethod": "",
+			"CompanyCode": "0001",
+			"AccountingDocument": "",
+			"ExchangeRateDate": "1998-02-01",
+			"ExchangeRateType": "",
+			"DocumentReferenceID": "Test",
+			"SoldToParty": "1",
+			"PartnerCompany": "",
+			"PurchaseOrderByCustomer": "Test",
+			"CustomerGroup": "",
+			"Country": "JP",
+			"CityCode": "",
+			"Region": "13",
+			"CreditControlArea": "0001",
+			"OverallBillingStatus": "B",
+			"AccountingPostingStatus": "A",
+			"AccountingTransferStatus": "F",
+			"InvoiceListStatus": "",
+			"BillingDocumentListType": "LR",
+			"BillingDocumentListDate": "",
+			"to_Item": "http://100.21.57.120:8080/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV/A_BillingDocument('90000000')/to_Item",
+			"to_Partner": "http://100.21.57.120:8080/sap/opu/odata/sap/API_BILLING_DOCUMENT_SRV/A_BillingDocument('90000000')/to_Partner"
+		}
+	],
+	"time": "2022-09-15T08:52:03+09:00"
 }
 ```

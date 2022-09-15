@@ -28,7 +28,7 @@ func NewSAPAPICaller(baseUrl, sapClientNumber string, requestClient *sap_api_req
 	}
 }
 
-func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, headerPartnerFunction, billingDocumentItem, itemPartnerFunction string, accepter []string) {
+func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, partnerFunction, billingDocumentItem, itemPartnerFunction string, accepter []string) {
 	wg := &sync.WaitGroup{}
 	wg.Add(len(accepter))
 	for _, fn := range accepter {
@@ -40,7 +40,7 @@ func (c *SAPAPICaller) AsyncGetBillingDocument(billingDocument, headerPartnerFun
 			}()
 		case "HeaderPartner":
 			func() {
-				c.HeaderPartner(billingDocument, headerPartnerFunction)
+				c.HeaderPartner(billingDocument, partnerFunction)
 				wg.Done()
 			}()
 		case "Item":
@@ -205,7 +205,7 @@ func (c *SAPAPICaller) callBillingDocumentSrvAPIRequirementHeaderPartner(api, bi
 }
 
 func (c *SAPAPICaller) Item(billingDocument, billingDocumentItem string) {
-	itemData, err := c.callBillingDocumentSrvAPIRequirementItem("A_BillingDocumentPartner", billingDocument, billingDocumentItem)
+	itemData, err := c.callBillingDocumentSrvAPIRequirementItem("A_BillingDocumentItem", billingDocument, billingDocumentItem)
 	if err != nil {
 		c.log.Error(err)
 		return
@@ -247,7 +247,7 @@ func (c *SAPAPICaller) callBillingDocumentSrvAPIRequirementItem(api, billingDocu
 }
 
 func (c *SAPAPICaller) ItemPartner(billingDocument, billingDocumentItem, partnerFunction string) {
-	data, err := c.callBillingDocumentSrvAPIRequirementItemPartner("A_BillingDocumentPartner", billingDocument, billingDocumentItem, partnerFunction)
+	data, err := c.callBillingDocumentSrvAPIRequirementItemPartner("A_BillingDocumentItemPartner", billingDocument, billingDocumentItem, partnerFunction)
 	if err != nil {
 		c.log.Error(err)
 		return
@@ -282,11 +282,11 @@ func (c *SAPAPICaller) getQueryWithHeader(params map[string]string, billingDocum
 	return params
 }
 
-func (c *SAPAPICaller) getQueryWithHeaderPartner(params map[string]string, billingDocument, headerPartnerFunction string) map[string]string {
+func (c *SAPAPICaller) getQueryWithHeaderPartner(params map[string]string, billingDocument, partnerFunction string) map[string]string {
 	if len(params) == 0 {
 		params = make(map[string]string, 1)
 	}
-	params["$filter"] = fmt.Sprintf("BillingDocument eq '%s' and HeaderPartnerFunction eq '%s'", billingDocument, headerPartnerFunction)
+	params["$filter"] = fmt.Sprintf("BillingDocument eq '%s' and PartnerFunction eq '%s'", billingDocument, partnerFunction)
 	return params
 }
 
@@ -298,10 +298,10 @@ func (c *SAPAPICaller) getQueryWithItem(params map[string]string, billingDocumen
 	return params
 }
 
-func (c *SAPAPICaller) getQueryWithItemPartner(params map[string]string, billingDocument, billingDocumentItem, itemPartnerFunction string) map[string]string {
+func (c *SAPAPICaller) getQueryWithItemPartner(params map[string]string, billingDocument, billingDocumentItem, partnerFunction string) map[string]string {
 	if len(params) == 0 {
 		params = make(map[string]string, 1)
 	}
-	params["$filter"] = fmt.Sprintf("BillingDocument eq '%s' and BillingDocumentItem eq '%s' and ItemPartnerFunction eq '%s'", billingDocument, billingDocumentItem, itemPartnerFunction)
+	params["$filter"] = fmt.Sprintf("BillingDocument eq '%s' and BillingDocumentItem eq '%s' and PartnerFunction eq '%s'", billingDocument, billingDocumentItem, partnerFunction)
 	return params
 }

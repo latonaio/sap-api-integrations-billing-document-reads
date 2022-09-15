@@ -30,7 +30,7 @@
 		"ExchangeRateDate": "",
 		"ExchangeRateType": "",
 		"DocumentReferenceID": "",
-		"SoldToParty": "",
+		"SoldToParty": "1",
 		"PartnerCompany": "",
 		"PurchaseOrderByCustomer": "",
 		"CustomerGroup": "",
@@ -116,7 +116,7 @@
 			}
 		}
 	},
-	"api_schema": "sap.s4.beh.billingdocument.v1.BillingDocument.Created.v1",
+	"api_schema": "SAPBillingDocumentReads",
 	"accepter": ["Header"],
 	"billing_document": "90000000",
 	"deleted": false

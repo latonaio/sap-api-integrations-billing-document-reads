@@ -116,7 +116,7 @@
 			}
 		}
 	},
-	"api_schema": "sap.s4.beh.billingdocument.v1.BillingDocument.Created.v1",
+	"api_schema": "SAPBillingDocumentReads",
 	"accepter": ["HeaderPartner"],
 	"billing_document": "90000000",
 	"deleted": false
